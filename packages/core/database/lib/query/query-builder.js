@@ -15,6 +15,8 @@ const createQueryBuilder = (uid, db, initialState = {}) => {
       type: 'select',
       select: [],
       count: null,
+      sum: null,
+      avg: null,
       max: null,
       first: false,
       data: null,
@@ -126,6 +128,20 @@ const createQueryBuilder = (uid, db, initialState = {}) => {
     count(count = 'id') {
       state.type = 'count';
       state.count = count;
+
+      return this;
+    },
+
+    sum(sum) {
+      state.type = 'sum';
+      state.sum = sum;
+
+      return this;
+    },
+
+    avg(avg) {
+      state.type = 'avg';
+      state.avg = avg;
 
       return this;
     },
@@ -263,7 +279,7 @@ const createQueryBuilder = (uid, db, initialState = {}) => {
     },
 
     mustUseAlias() {
-      return ['select', 'count'].includes(state.type);
+      return ['select', 'count', 'sum', 'avg'].includes(state.type);
     },
 
     aliasColumn(key, alias) {
@@ -371,6 +387,14 @@ const createQueryBuilder = (uid, db, initialState = {}) => {
           } else {
             qb.count({ count: dbColumnName });
           }
+          break;
+        }
+        case 'sum': {
+          qb.sum({ sum: state.sum });
+          break;
+        }
+        case 'avg': {
+          qb.avg({ avg: state.avg });
           break;
         }
         case 'max': {
