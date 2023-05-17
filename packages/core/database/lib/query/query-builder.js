@@ -390,11 +390,17 @@ const createQueryBuilder = (uid, db, initialState = {}) => {
           break;
         }
         case 'sum': {
-          qb.sum({ sum: state.sum });
+          const dbColumnName = this.aliasColumn(helpers.toColumnName(meta, state.sum));
+
+          qb.sum({ sum: dbColumnName });
+
           break;
         }
         case 'avg': {
-          qb.avg({ avg: state.avg });
+          const dbColumnName = this.aliasColumn(helpers.toColumnName(meta, state.avg));
+          
+          qb.avg({ avg: dbColumnName });
+
           break;
         }
         case 'max': {
