@@ -212,12 +212,12 @@ const createEntityManager = (db) => {
     async sum(uid, field, params = {}) {
       await db.lifecycles.run('beforeSum', uid, { params });
 
-      if (!_.isString(field) || _.isEmpty(field)) {
+      if (!isString(field) || isEmpty(field)) {
         throw new Error('Expects a field name to sum');
       }
 
       const res = await this.createQueryBuilder(uid)
-        .init(_.pick(['_q', 'where', 'filters'], params))
+        .init(pick(['_q', 'where', 'filters'], params))
         .sum(field)
         .first()
         .execute();
@@ -232,12 +232,12 @@ const createEntityManager = (db) => {
     async avg(uid, field, params = {}) {
       await db.lifecycles.run('beforeAvg', uid, { params });
 
-      if (!_.isString(field) || _.isEmpty(field)) {
+      if (!isString(field) || isEmpty(field)) {
         throw new Error('Expects a field name to average');
       }
 
       const res = await this.createQueryBuilder(uid)
-        .init(_.pick(['_q', 'where', 'filters'], params))
+        .init(pick(['_q', 'where', 'filters'], params))
         .avg(field)
         .first()
         .execute();
